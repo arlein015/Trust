@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ChatFloy - Réseau Social</title>
+    
+    <!-- Lien vers le CSS -->
+    <link rel="stylesheet" href="style.css" />
+    
+    <!-- Firebase (SDK modulaire) -->
+    <script type="importmap">
+        {
+            "imports": {
+                "firebase/app": "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js",
+                "firebase/auth": "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js",
+                "firebase/firestore": "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js",
+                "firebase/storage": "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js"
+            }
+        }
+    </script>
+</head>
+<body>
+
+    <!-- ===== BARRE DE NAVIGATION ===== -->
+    <nav id="navbar" class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span>💬 ChatFloy</span>
+            </div>
+
+            <div class="nav-links">
+                <a href="index.html" class="active">🏠 Accueil</a>
+                <a href="chat.html">💬 Messages</a>
+                <a href="menu.html">📱 Menu</a>
+            </div>
+
+            <div class="nav-user" id="navUser">
+                <span id="userName">👤 Chargement...</span>
+                <button id="logoutBtn" class="btn-logout">Déconnexion</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===== CONTENU PRINCIPAL ===== -->
+    <main class="main-content">
+        
+        <!-- Section : Créer un post -->
+        <section class="create-post">
+            <div class="post-card">
+                <div class="post-header">
+                    <img src="assets/default-avatar.png" alt="Avatar" class="avatar" id="userAvatar" />
+                    <input 
+                        type="text" 
+                        id="postInput" 
+                        placeholder="Quoi de neuf, toi ? ✨"
+                        class="post-input"
+                    />
+                </div>
+                <div class="post-actions">
+                    <button id="imageBtn" class="action-btn">📷 Photo</button>
+                    <button id="submitPostBtn" class="btn-primary">Publier</button>
+                </div>
+                <!-- Zone de prévisualisation de l'image -->
+                <div id="imagePreview" class="image-preview hidden"></div>
+                <input type="file" id="fileInput" accept="image/*" style="display:none" />
+            </div>
+        </section>
+
+        <!-- Section : Fil d'actualité -->
+        <section class="feed">
+            <h2>📰 Fil d'actualité</h2>
+            <div id="feedContainer">
+                <!-- Les posts seront chargés ici dynamiquement -->
+                <p class="loading-text">Chargement des posts...</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer">
+        <p>© 2026 ChatFloy - Réseau Social 💙</p>
+    </footer>
+
+    <!-- ===== JAVASCRIPT ===== -->
+    <script type="module">
+        // Point d'entrée principal qui importe tous les modules
+        import './firebase-config.js';
+        import './auth-controller.js';
+        import './index.js';
+        import './loader.js';
+    </script>
+
+</body>
+</html>
