@@ -18,6 +18,9 @@
     </script>
     
     <style>
+        /* ========================================
+           AUTH - STYLE INSTAGRAM + VIOLET
+           ======================================== */
         .auth-container {
             display: flex;
             justify-content: center;
@@ -27,23 +30,30 @@
         }
         .auth-card {
             background: var(--bg-card);
-            padding: 40px;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 40px 36px;
             border-radius: 24px;
-            box-shadow: var(--shadow);
+            box-shadow: var(--shadow-hover);
             width: 100%;
             max-width: 400px;
             border: 1px solid var(--border-color);
             transition: all var(--transition);
         }
-        .auth-card h1 {
+        .auth-card .logo {
             text-align: center;
+            font-size: 2.2rem;
+            font-weight: 800;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
             margin-bottom: 4px;
-            color: var(--text-primary);
         }
         .auth-card .subtitle {
             text-align: center;
             color: var(--text-muted);
-            margin-bottom: 24px;
+            margin-bottom: 28px;
+            font-weight: 400;
         }
         .auth-card input {
             width: 100%;
@@ -59,6 +69,7 @@
         }
         .auth-card input:focus {
             border-color: var(--accent);
+            box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.1);
         }
         .auth-card input::placeholder {
             color: var(--text-muted);
@@ -66,18 +77,39 @@
         .auth-card .btn-primary {
             width: 100%;
             padding: 14px;
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             margin-top: 4px;
+            justify-content: center;
+        }
+        .auth-card .btn-primary .icon {
+            -webkit-text-fill-color: initial;
+        }
+        .auth-card .divider {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin: 20px 0;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+        .auth-card .divider::before,
+        .auth-card .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border-color);
         }
         .auth-card .link {
             text-align: center;
             margin-top: 16px;
             color: var(--text-muted);
+            font-size: 0.9rem;
         }
         .auth-card .link a {
             color: var(--accent);
             text-decoration: none;
-            font-weight: 600;
+            font-weight: 700;
+            transition: all var(--transition);
         }
         .auth-card .link a:hover {
             text-decoration: underline;
@@ -99,17 +131,26 @@
             top: 20px;
             right: 20px;
             background: var(--bg-card);
+            backdrop-filter: blur(10px);
             border: 1px solid var(--border-color);
             font-size: 1.2rem;
-            padding: 8px 12px;
-            border-radius: 30px;
+            padding: 10px 14px;
+            border-radius: 50%;
             cursor: pointer;
             transition: all var(--transition);
             color: var(--text-primary);
             z-index: 100;
+            box-shadow: var(--shadow);
         }
         .theme-toggle-auth:hover {
             transform: scale(1.1);
+            border-color: var(--accent);
+        }
+        .auth-footer {
+            text-align: center;
+            margin-top: 16px;
+            color: var(--text-muted);
+            font-size: 0.75rem;
         }
     </style>
 </head>
@@ -119,19 +160,27 @@
 
     <div class="auth-container">
         <div class="auth-card">
-            <h1>🤝 Trust</h1>
+            <div class="logo">📸 Trust</div>
             <p class="subtitle">Connecte-toi pour retrouver tes amis</p>
             
             <form id="loginForm">
                 <input type="email" id="email" placeholder="Email" required />
                 <input type="password" id="password" placeholder="Mot de passe" required />
-                <button type="submit" class="btn-primary">Se connecter</button>
+                <button type="submit" class="btn-primary">
+                    <span class="icon">🔑</span> Se connecter
+                </button>
             </form>
             
             <div id="errorMessage" class="error-message"></div>
             
+            <div class="divider">ou</div>
+            
             <div class="link">
                 Pas encore de compte ? <a href="signup.html">Inscris-toi</a>
+            </div>
+            
+            <div class="auth-footer">
+                Trust • Réseau Social 💜
             </div>
         </div>
     </div>
