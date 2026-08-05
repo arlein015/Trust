@@ -22,20 +22,14 @@ const imagePreview = document.getElementById('imagePreview');
 
 let selectedImage = null;
 
-// ========================================
-// ICÔNES SVG POUR LE FEED
-// ========================================
 const ICONS = {
-    like: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>`,
-    liked: `<svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>`,
-    comment: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>`,
-    share: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>`,
-    delete: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>`
+    like: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>`,
+    liked: `<svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>`,
+    comment: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>`,
+    share: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>`,
+    delete: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>`
 };
 
-// ========================================
-// CHARGER LE FEED
-// ========================================
 export function loadFeed() {
     if (!feedContainer) return;
     
@@ -45,7 +39,7 @@ export function loadFeed() {
         if (snapshot.empty) {
             feedContainer.innerHTML = `
                 <div class="empty-feed">
-                    <div class="empty-icon">📝</div>
+                    <div class="icon">📝</div>
                     <h3>Aucun post</h3>
                     <p>Sois le premier à partager !</p>
                 </div>
@@ -59,7 +53,6 @@ export function loadFeed() {
             const postId = doc.id;
             const isOwner = data.userId === currentUser?.uid;
             const likes = data.likes || 0;
-            const isLiked = data.likedBy?.includes(currentUser?.uid) || false;
             
             html += `
                 <div class="post-item" data-id="${postId}">
@@ -71,8 +64,8 @@ export function loadFeed() {
                     <div class="post-content">${data.content || ''}</div>
                     ${data.image ? `<img src="${data.image}" alt="Image" class="post-image" />` : ''}
                     <div class="post-actions-feed">
-                        <button class="like-btn ${isLiked ? 'liked' : ''}" data-id="${postId}">
-                            ${isLiked ? ICONS.liked : ICONS.like}
+                        <button class="like-btn" data-id="${postId}">
+                            ${ICONS.like}
                             ${likes}
                         </button>
                         <button class="comment-btn" data-id="${postId}">
@@ -105,9 +98,6 @@ export function loadFeed() {
     });
 }
 
-// ========================================
-// PUBLIER UN POST
-// ========================================
 submitBtn?.addEventListener('click', async () => {
     const content = postInput.value.trim();
     if (!content && !selectedImage) {
@@ -122,19 +112,7 @@ submitBtn?.addEventListener('click', async () => {
     }
     
     submitBtn.disabled = true;
-    submitBtn.innerHTML = `
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="animation: spin 1s linear infinite;">
-            <line x1="12" y1="2" x2="12" y2="6"/>
-            <line x1="12" y1="18" x2="12" y2="22"/>
-            <line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/>
-            <line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/>
-            <line x1="2" y1="12" x2="6" y2="12"/>
-            <line x1="18" y1="12" x2="22" y2="12"/>
-            <line x1="4.93" y1="19.07" x2="7.76" y2="16.24"/>
-            <line x1="16.24" y1="7.76" x2="19.07" y2="4.93"/>
-        </svg>
-        Publication...
-    `;
+    submitBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="animation: spin 1s linear infinite;"><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"/><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"/></svg>`;
     
     try {
         let imageUrl = null;
@@ -149,8 +127,7 @@ submitBtn?.addEventListener('click', async () => {
             displayName: currentUser.displayName || currentUser.email,
             avatar: currentUser.photoURL || 'assets/default-avatar.png',
             timestamp: serverTimestamp(),
-            likes: 0,
-            likedBy: []
+            likes: 0
         });
         
         postInput.value = '';
@@ -158,31 +135,16 @@ submitBtn?.addEventListener('click', async () => {
         imagePreview.classList.add('hidden');
         imagePreview.innerHTML = '';
         submitBtn.disabled = false;
-        submitBtn.innerHTML = `
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="22" y1="2" x2="11" y2="13"/>
-                <polygon points="22 2 15 22 11 13 2 9 22 2"/>
-            </svg>
-            Publier
-        `;
+        submitBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>`;
         
     } catch (error) {
         console.error("Erreur publication :", error);
         alert('Erreur lors de la publication.');
         submitBtn.disabled = false;
-        submitBtn.innerHTML = `
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <line x1="22" y1="2" x2="11" y2="13"/>
-                <polygon points="22 2 15 22 11 13 2 9 22 2"/>
-            </svg>
-            Publier
-        `;
+        submitBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>`;
     }
 });
 
-// ========================================
-// GESTION DES IMAGES
-// ========================================
 imageBtn?.addEventListener('click', () => fileInput.click());
 
 fileInput?.addEventListener('change', (e) => {
@@ -198,9 +160,6 @@ fileInput?.addEventListener('change', (e) => {
     }
 });
 
-// ========================================
-// LIKE
-// ========================================
 async function handleLike(postId) {
     if (!currentUser) {
         alert('Connecte-toi pour liker !');
@@ -217,9 +176,6 @@ async function handleLike(postId) {
     }
 }
 
-// ========================================
-// SUPPRIMER
-// ========================================
 async function handleDelete(postId) {
     if (!confirm('Supprimer ce post ?')) return;
     try {
@@ -229,9 +185,6 @@ async function handleDelete(postId) {
     }
 }
 
-// ========================================
-// FORMATER LE TEMPS
-// ========================================
 function formatTime(timestamp) {
     if (!timestamp) return 'À l\'instant';
     const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
