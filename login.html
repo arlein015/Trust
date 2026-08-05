@@ -1,1 +1,164 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Connexion - Trust</title>
+    <link rel="stylesheet" href="style.css" />
+    
+    <script type="importmap">
+        {
+            "imports": {
+                "firebase/app": "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js",
+                "firebase/auth": "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js",
+                "firebase/firestore": "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js",
+                "firebase/storage": "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js"
+            }
+        }
+    </script>
+    
+    <style>
+        .auth-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 80vh;
+            padding: 20px;
+        }
+        .auth-card {
+            background: var(--bg-card);
+            padding: 40px;
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+            width: 100%;
+            max-width: 400px;
+            border: 1px solid var(--border-color);
+            transition: all var(--transition);
+        }
+        .auth-card h1 {
+            text-align: center;
+            margin-bottom: 4px;
+            color: var(--text-primary);
+        }
+        .auth-card .subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+        }
+        .auth-card input {
+            width: 100%;
+            padding: 14px 16px;
+            background: var(--bg-input);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            margin-bottom: 14px;
+            font-size: 1rem;
+            color: var(--text-primary);
+            transition: all var(--transition);
+            outline: none;
+        }
+        .auth-card input:focus {
+            border-color: var(--accent);
+        }
+        .auth-card input::placeholder {
+            color: var(--text-muted);
+        }
+        .auth-card .btn-primary {
+            width: 100%;
+            padding: 14px;
+            font-size: 1.1rem;
+            margin-top: 4px;
+        }
+        .auth-card .link {
+            text-align: center;
+            margin-top: 16px;
+            color: var(--text-muted);
+        }
+        .auth-card .link a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .auth-card .link a:hover {
+            text-decoration: underline;
+        }
+        .error-message {
+            color: var(--danger);
+            font-size: 0.9rem;
+            text-align: center;
+            margin-top: 12px;
+        }
+        .success-message {
+            color: var(--accent);
+            font-size: 0.9rem;
+            text-align: center;
+            margin-top: 12px;
+        }
+        .theme-toggle-auth {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            font-size: 1.2rem;
+            padding: 8px 12px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all var(--transition);
+            color: var(--text-primary);
+            z-index: 100;
+        }
+        .theme-toggle-auth:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
 
+    <button id="themeToggle" class="theme-toggle-auth">🌙</button>
+
+    <div class="auth-container">
+        <div class="auth-card">
+            <h1>🤝 Trust</h1>
+            <p class="subtitle">Connecte-toi pour retrouver tes amis</p>
+            
+            <form id="loginForm">
+                <input type="email" id="email" placeholder="Email" required />
+                <input type="password" id="password" placeholder="Mot de passe" required />
+                <button type="submit" class="btn-primary">Se connecter</button>
+            </form>
+            
+            <div id="errorMessage" class="error-message"></div>
+            
+            <div class="link">
+                Pas encore de compte ? <a href="signup.html">Inscris-toi</a>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { login } from './auth.js';
+        import './theme.js';
+        
+        const form = document.getElementById('loginForm');
+        const errorDiv = document.getElementById('errorMessage');
+        
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            errorDiv.textContent = '';
+            
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            
+            const result = await login(email, password);
+            
+            if (result.success) {
+                window.location.href = 'index.html';
+            } else {
+                errorDiv.textContent = '❌ ' + result.error;
+            }
+        });
+    </script>
+
+</body>
+</html>
