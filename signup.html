@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Inscription - Trust</title>
+    <link rel="stylesheet" href="style.css" />
+    
+    <script type="importmap">
+        {
+            "imports": {
+                "firebase/app": "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js",
+                "firebase/auth": "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js",
+                "firebase/firestore": "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js",
+                "firebase/storage": "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js"
+            }
+        }
+    </script>
+    
+    <style>
+        /* Mêmes styles que login.html */
+        .auth-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 80vh;
+            padding: 20px;
+        }
+        .auth-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            padding: 40px 36px;
+            border-radius: 24px;
+            box-shadow: var(--shadow-hover);
+            width: 100%;
+            max-width: 400px;
+            border: 1px solid var(--border-color);
+            transition: all var(--transition);
+        }
+        .auth-card .logo {
+            text-align: center;
+            font-size: 2.2rem;
+            font-weight: 800;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 4px;
+        }
+        .auth-card .subtitle {
+            text-align: center;
+            color: var(--text-muted);
+            margin-bottom: 28px;
+            font-weight: 400;
+        }
+        .auth-card input {
+            width: 100%;
+            padding: 14px 16px;
+            background: var(--bg-input);
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            margin-bottom: 14px;
+            font-size: 1rem;
+            color: var(--text-primary);
+            transition: all var(--transition);
+            outline: none;
+        }
+        .auth-card input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px rgba(124, 58, 237, 0.1);
+        }
+        .auth-card input::placeholder {
+            color: var(--text-muted);
+        }
+        .auth-card .btn-primary {
+            width: 100%;
+            padding: 14px;
+            font-size: 1.05rem;
+            margin-top: 4px;
+            justify-content: center;
+        }
+        .auth-card .btn-primary .icon {
+            -webkit-text-fill-color: initial;
+        }
+        .auth-card .divider {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin: 20px 0;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+        .auth-card .divider::before,
+        .auth-card .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border-color);
+        }
+        .auth-card .link {
+            text-align: center;
+            margin-top: 16px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        .auth-card .link a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 700;
+            transition: all var(--transition);
+        }
+        .auth-card .link a:hover {
+            text-decoration: underline;
+        }
+        .error-message {
+            color: var(--danger);
+            font-size: 0.9rem;
+            text-align: center;
+            margin-top: 12px;
+        }
+        .success-message {
+            color: var(--accent);
+            font-size: 0.9rem;
+            text-align: center;
+            margin-top: 12px;
+        }
+        .theme-toggle-auth {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--bg-card);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border-color);
+            font-size: 1.2rem;
+            padding: 10px 14px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all var(--transition);
+            color: var(--text-primary);
+            z-index: 100;
+            box-shadow: var(--shadow);
+        }
+        .theme-toggle-auth:hover {
+            transform: scale(1.1);
+            border-color: var(--accent);
+        }
+        .auth-footer {
+            text-align: center;
+            margin-top: 16px;
+            color: var(--text-muted);
+            font-size: 0.75rem;
+        }
+    </style>
+</head>
+<body>
+
+    <button id="themeToggle" class="theme-toggle-auth">🌙</button>
+
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="logo">📸 Trust</div>
+            <p class="subtitle">Rejoins la communauté</p>
+            
+            <form id="signupForm">
+                <input type="text" id="displayName" placeholder="Nom d'utilisateur" required />
+                <input type="email" id="email" placeholder="Email" required />
+                <input type="password" id="password" placeholder="Mot de passe (6+ caractères)" required />
+                <input type="password" id="confirmPassword" placeholder="Confirmer le mot de passe" required />
+                <button type="submit" class="btn-primary">
+                    <span class="icon">🚀</span> S'inscrire
+                </button>
+            </form>
+            
+            <div id="errorMessage" class="error-message"></div>
+            <div id="successMessage" class="success-message"></div>
+            
+            <div class="divider">ou</div>
+            
+            <div class="link">
+                Déjà un compte ? <a href="login.html">Connecte-toi</a>
+            </div>
+            
+            <div class="auth-footer">
+                Trust • Réseau Social 💜
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { signup } from './auth.js';
+        import { auth } from './firebase-config.js';
+        import { updateProfile } from "firebase/auth";
+        import './theme.js';
+        
+        const form = document.getElementById('signupForm');
+        const errorDiv = document.getElementById('errorMessage');
+        const successDiv = document.getElementById('successMessage');
+        
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            errorDiv.textContent = '';
+            successDiv.textContent = '';
+            
+            const displayName = document.getElementById('displayName').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (password !== confirmPassword) {
+                errorDiv.textContent = '❌ Les mots de passe ne correspondent pas.';
+                return;
+            }
+            
+            if (password.length < 6) {
+                errorDiv.textContent = '❌ Le mot de passe doit faire au moins 6 caractères.';
+                return;
+            }
+            
+            const result = await signup(email, password, displayName);
+            
+            if (result.success) {
+                await updateProfile(auth.currentUser, { displayName });
+                successDiv.textContent = '✅ Compte créé ! Redirection...';
+                setTimeout(() => {
+                    window.location.href = 'index.html';
+                }, 1500);
+            } else {
+                errorDiv.textContent = '❌ ' + result.error;
+            }
+        });
+    </script>
+
+</body>
+</html>
