@@ -1,5 +1,5 @@
 /* ========================================
-   RESET & VARIABLES - THÈME VIOLET
+   RESET
    ======================================== */
 * {
     margin: 0;
@@ -10,77 +10,49 @@
 
 :root {
     /* === Thème Clair (Violet) === */
-    --bg-primary: #f8f4ff;
+    --bg-primary: #faf8ff;
     --bg-secondary: #ffffff;
     --bg-card: #ffffff;
     --bg-input: #f3edff;
-    --bg-hover: #ede9fe;
-    --bg-story: #f8f4ff;
+    --bg-hover: #f0ebff;
     
     --text-primary: #1a1a2e;
     --text-secondary: #4a4a6a;
-    --text-muted: #8b8baa;
+    --text-muted: #a0a0c0;
     --text-white: #ffffff;
     
-    --border-color: #e8e0f0;
-    --border-focus: #7c3aed;
-    
-    --shadow-card: 0 2px 16px rgba(124, 58, 237, 0.06);
-    --shadow-hover: 0 8px 32px rgba(124, 58, 237, 0.12);
-    --shadow-bottom: 0 -2px 16px rgba(124, 58, 237, 0.06);
-    
-    /* === Palette Violette === */
-    --violet-50: #f5f3ff;
-    --violet-100: #ede9fe;
-    --violet-200: #ddd6fe;
-    --violet-300: #c4b5fd;
-    --violet-400: #a78bfa;
-    --violet-500: #8b5cf6;
-    --violet-600: #7c3aed;
-    --violet-700: #6d28d9;
-    --violet-800: #5b21b6;
-    --violet-900: #4c1d95;
-    
-    --accent: var(--violet-600);
-    --accent-hover: var(--violet-700);
-    --accent-light: var(--violet-100);
+    --border-color: #eee8f5;
+    --accent: #7c3aed;
+    --accent-hover: #6d28d9;
+    --accent-light: #ede9fe;
     --accent-gradient: linear-gradient(135deg, #7c3aed, #a855f7);
     
-    --danger: #ef4444;
-    --danger-hover: #dc2626;
+    --shadow-card: 0 2px 12px rgba(124, 58, 237, 0.06);
+    --shadow-bottom: 0 -1px 12px rgba(124, 58, 237, 0.06);
     
-    --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     --radius: 12px;
     --radius-full: 9999px;
-    --radius-lg: 16px;
+    --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* ========================================
-   MODE SOMBRE - VIOLET
-   ======================================== */
 [data-theme="dark"] {
     --bg-primary: #0a0a1a;
     --bg-secondary: #12122a;
     --bg-card: #18183a;
     --bg-input: #1a1a3e;
     --bg-hover: #2a2a4e;
-    --bg-story: #0a0a1a;
     
     --text-primary: #f0edff;
     --text-secondary: #b8b0d0;
     --text-muted: #6a6a8a;
-    --text-white: #ffffff;
     
     --border-color: #2a2a4e;
-    --border-focus: #8b5cf6;
-    
-    --shadow-card: 0 2px 16px rgba(0, 0, 0, 0.3);
-    --shadow-hover: 0 8px 32px rgba(0, 0, 0, 0.5);
-    --shadow-bottom: 0 -2px 16px rgba(0, 0, 0, 0.3);
-    
-    --accent: var(--violet-400);
-    --accent-hover: var(--violet-300);
+    --accent: #a78bfa;
+    --accent-hover: #c4b5fd;
     --accent-light: rgba(139, 92, 246, 0.15);
+    
+    --shadow-card: 0 2px 12px rgba(0, 0, 0, 0.3);
+    --shadow-bottom: 0 -1px 12px rgba(0, 0, 0, 0.3);
 }
 
 /* ========================================
@@ -90,28 +62,28 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     background: var(--bg-primary);
     color: var(--text-primary);
-    padding-bottom: 70px;
-    padding-top: 60px;
+    padding-bottom: 64px;
+    padding-top: 52px;
     transition: background 0.4s ease, color var(--transition);
     min-height: 100vh;
 }
 
 /* ========================================
-   TOP NAVBAR - Style Instagram
+   TOP BAR (Instagram)
    ======================================== */
-.top-nav {
+.top-bar {
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     background: var(--bg-secondary);
     border-bottom: 1px solid var(--border-color);
-    padding: 12px 16px;
+    padding: 10px 16px;
     z-index: 1000;
     transition: all var(--transition);
 }
 
-.top-nav-container {
+.top-bar-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -120,34 +92,25 @@ body {
 }
 
 .logo {
-    font-size: 1.6rem;
+    font-size: 1.5rem;
     font-weight: 800;
     background: var(--accent-gradient);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    letter-spacing: -0.5px;
+}
+
+.top-bar-actions {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 4px;
 }
 
-.logo-svg {
-    width: 28px;
-    height: 28px;
-    color: var(--accent);
-    -webkit-text-fill-color: initial;
-}
-
-.top-nav-actions {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.icon-btn {
+.top-btn {
     background: none;
     border: none;
-    width: 40px;
-    height: 40px;
+    width: 38px;
+    height: 38px;
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -157,68 +120,50 @@ body {
     color: var(--text-secondary);
 }
 
-.icon-btn:hover {
+.top-btn:hover {
     background: var(--bg-hover);
     color: var(--accent);
 }
 
-.icon-btn svg {
-    width: 22px;
-    height: 22px;
-    stroke: currentColor;
-}
-
-.logout-btn {
-    background: none;
-    border: none;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all var(--transition);
-    color: var(--text-secondary);
-}
-
-.logout-btn:hover {
-    background: rgba(239, 68, 68, 0.1);
-    color: var(--danger);
-}
-
-.logout-btn svg {
+.top-btn svg {
     width: 22px;
     height: 22px;
     stroke: currentColor;
 }
 
 /* ========================================
-   MAIN CONTENT
+   MAIN FEED
    ======================================== */
-.main-content {
+.main-feed {
     max-width: 800px;
     margin: 0 auto;
-    padding: 12px 16px 20px;
+    padding: 0 0 12px;
 }
 
 /* ========================================
-   STORIES BAR - Style Instagram
+   STORIES (Instagram)
    ======================================== */
-.stories-bar {
+.stories-wrapper {
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
+    padding: 12px 0 14px;
+    margin-bottom: 4px;
+}
+
+.stories-scroll {
     display: flex;
     gap: 16px;
-    padding: 12px 0 16px;
+    padding: 0 16px;
     overflow-x: auto;
     scrollbar-width: none;
     -webkit-overflow-scrolling: touch;
 }
 
-.stories-bar::-webkit-scrollbar {
+.stories-scroll::-webkit-scrollbar {
     display: none;
 }
 
-.story-item {
+.story {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -253,8 +198,8 @@ body {
     z-index: -1;
 }
 
-.story-name {
-    font-size: 0.7rem;
+.story-label {
+    font-size: 0.65rem;
     color: var(--text-secondary);
     max-width: 64px;
     text-overflow: ellipsis;
@@ -264,126 +209,104 @@ body {
 }
 
 /* ========================================
-   CREATE POST - Style Instagram
+   CREATE POST (Instagram)
    ======================================== */
-.create-post-card {
-    background: var(--bg-card);
-    border-radius: var(--radius-lg);
-    padding: 16px;
-    margin-bottom: 16px;
-    border: 1px solid var(--border-color);
-    transition: all var(--transition);
-    box-shadow: var(--shadow-card);
+.create-post {
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
+    padding: 12px 16px;
 }
 
-.create-post-header {
+.create-post-inner {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
 }
 
-.avatar {
-    width: 40px;
-    height: 40px;
+.create-avatar {
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
     object-fit: cover;
     border: 2px solid var(--accent-light);
     flex-shrink: 0;
 }
 
-.post-input {
+.create-input {
     flex: 1;
-    padding: 10px 16px;
+    padding: 8px 14px;
     background: var(--bg-input);
     border: none;
     border-radius: var(--radius-full);
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     color: var(--text-primary);
     outline: none;
     transition: all var(--transition);
 }
 
-.post-input::placeholder {
+.create-input::placeholder {
     color: var(--text-muted);
 }
 
-.post-input:focus {
+.create-input:focus {
     background: var(--bg-secondary);
     box-shadow: 0 0 0 2px var(--accent);
 }
 
-.create-post-actions {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 12px;
-    gap: 8px;
-}
-
-.action-btn {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+.create-photo-btn {
     background: none;
     border: none;
-    padding: 8px 16px;
-    border-radius: var(--radius-full);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
-    color: var(--text-secondary);
-    font-weight: 500;
-    font-size: 0.85rem;
     transition: all var(--transition);
+    color: var(--text-muted);
 }
 
-.action-btn svg {
+.create-photo-btn:hover {
+    background: var(--bg-hover);
+    color: var(--accent);
+}
+
+.create-photo-btn svg {
     width: 20px;
     height: 20px;
     stroke: currentColor;
 }
 
-.action-btn:hover {
-    background: var(--bg-hover);
-    color: var(--accent);
-}
-
-.publish-btn {
+.create-publish-btn {
+    background: var(--accent-gradient);
+    border: none;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
     display: flex;
     align-items: center;
-    gap: 8px;
-    background: var(--accent-gradient);
-    color: white;
-    border: none;
-    padding: 8px 20px;
-    border-radius: var(--radius-full);
+    justify-content: center;
     cursor: pointer;
-    font-weight: 700;
-    font-size: 0.85rem;
     transition: all var(--transition);
-    box-shadow: 0 4px 16px rgba(124, 58, 237, 0.25);
+    color: white;
+    box-shadow: 0 4px 12px rgba(124, 58, 237, 0.25);
 }
 
-.publish-btn svg {
+.create-publish-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(124, 58, 237, 0.35);
+}
+
+.create-publish-btn svg {
     width: 18px;
     height: 18px;
     stroke: currentColor;
 }
 
-.publish-btn:hover {
-    transform: translateY(-1px) scale(1.02);
-    box-shadow: 0 8px 24px rgba(124, 58, 237, 0.35);
-}
-
-.publish-btn:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-    transform: none !important;
-}
-
-/* ========================================
-   IMAGE PREVIEW
-   ======================================== */
 .image-preview {
-    margin-top: 12px;
-    padding: 12px;
+    margin-top: 10px;
+    padding: 10px;
     border: 2px dashed var(--border-color);
     border-radius: var(--radius);
     text-align: center;
@@ -392,8 +315,8 @@ body {
 
 .image-preview img {
     max-width: 100%;
-    max-height: 300px;
-    border-radius: 12px;
+    max-height: 260px;
+    border-radius: 10px;
 }
 
 .hidden {
@@ -401,15 +324,10 @@ body {
 }
 
 /* ========================================
-   FEED - Style Instagram
+   FEED
    ======================================== */
-.feed-container {
-    background: var(--bg-card);
-    border-radius: var(--radius-lg);
-    padding: 16px;
-    border: 1px solid var(--border-color);
-    box-shadow: var(--shadow-card);
-    transition: all var(--transition);
+.feed {
+    padding: 8px 0;
 }
 
 /* ========================================
@@ -422,9 +340,9 @@ body {
 }
 
 .spinner {
-    width: 36px;
-    height: 36px;
-    margin: 0 auto 12px;
+    width: 32px;
+    height: 32px;
+    margin: 0 auto 10px;
     border: 3px solid var(--border-color);
     border-top-color: var(--accent);
     border-radius: 50%;
@@ -436,35 +354,29 @@ body {
 }
 
 /* ========================================
-   POST ITEM - Style Instagram
+   POST ITEM (Instagram)
    ======================================== */
 .post-item {
     background: var(--bg-secondary);
-    border-radius: var(--radius);
-    padding: 16px;
-    margin-bottom: 16px;
-    border: 1px solid var(--border-color);
-    transition: all var(--transition);
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .post-item:last-child {
-    margin-bottom: 0;
-}
-
-.post-item:hover {
-    box-shadow: var(--shadow-hover);
+    border-bottom: none;
 }
 
 .post-header {
     display: flex;
     align-items: center;
-    gap: 12px;
-    margin-bottom: 12px;
+    gap: 10px;
+    padding: 12px 16px 8px;
 }
 
 .post-avatar {
-    width: 36px;
-    height: 36px;
+    width: 34px;
+    height: 34px;
     border-radius: 50%;
     object-fit: cover;
     border: 2px solid var(--accent-light);
@@ -472,38 +384,37 @@ body {
 
 .post-author-name {
     font-weight: 700;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: var(--text-primary);
 }
 
 .post-time {
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     color: var(--text-muted);
     margin-left: auto;
 }
 
 .post-content {
-    margin-bottom: 12px;
-    line-height: 1.6;
+    padding: 0 16px 10px;
+    line-height: 1.5;
     color: var(--text-secondary);
-    font-size: 0.95rem;
+    font-size: 0.9rem;
 }
 
 .post-image {
-    max-width: 100%;
-    border-radius: var(--radius);
-    margin-bottom: 12px;
-    border: 1px solid var(--border-color);
+    width: 100%;
+    max-height: 500px;
+    object-fit: cover;
+    margin-bottom: 8px;
 }
 
 /* ========================================
-   POST ACTIONS - Style Instagram
+   POST ACTIONS (Instagram)
    ======================================== */
 .post-actions-feed {
     display: flex;
     gap: 4px;
-    padding-top: 12px;
-    border-top: 1px solid var(--border-color);
+    padding: 4px 12px 8px;
 }
 
 .post-actions-feed button {
@@ -516,7 +427,7 @@ body {
     border-radius: var(--radius-full);
     cursor: pointer;
     font-weight: 500;
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     color: var(--text-secondary);
     transition: all var(--transition);
 }
@@ -543,11 +454,11 @@ body {
 
 .post-actions-feed .delete-btn:hover {
     background: rgba(239, 68, 68, 0.1);
-    color: var(--danger);
+    color: #ef4444;
 }
 
 /* ========================================
-   BOTTOM NAV - Style Instagram
+   BOTTOM NAV (Instagram)
    ======================================== */
 .bottom-nav {
     position: fixed;
@@ -559,67 +470,69 @@ body {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    padding: 8px 0 env(safe-area-inset-bottom, 8px);
+    padding: 6px 8px env(safe-area-inset-bottom, 6px);
     z-index: 1000;
     transition: all var(--transition);
-    box-shadow: var(--shadow-bottom);
 }
 
-.nav-item {
+.nav-btn {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 2px;
     text-decoration: none;
     color: var(--text-muted);
-    padding: 4px 12px;
+    padding: 4px 10px;
     border-radius: var(--radius);
     transition: all var(--transition);
-    font-size: 0.65rem;
+    font-size: 0.55rem;
     font-weight: 500;
-    min-width: 48px;
+    min-width: 44px;
+    background: none;
+    border: none;
+    cursor: pointer;
 }
 
-.nav-item svg {
+.nav-btn svg {
     width: 24px;
     height: 24px;
     stroke: currentColor;
     transition: all var(--transition);
 }
 
-.nav-item:hover {
+.nav-btn:hover {
     color: var(--text-secondary);
 }
 
-.nav-item.active {
+.nav-btn.active {
     color: var(--accent);
 }
 
-.nav-item.active svg {
+.nav-btn.active svg {
     fill: var(--accent);
     stroke: var(--accent);
 }
 
-.nav-item.nav-create {
+.nav-btn.nav-create-btn {
     background: var(--accent-gradient);
     color: white;
-    padding: 8px 16px;
+    padding: 8px 18px;
     border-radius: var(--radius-full);
-    margin-top: -16px;
+    margin-top: -12px;
     box-shadow: 0 4px 20px rgba(124, 58, 237, 0.3);
 }
 
-.nav-item.nav-create svg {
+.nav-btn.nav-create-btn svg {
     stroke: white;
 }
 
-.nav-item.nav-create:hover {
+.nav-btn.nav-create-btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 28px rgba(124, 58, 237, 0.4);
 }
 
-.nav-item span {
-    font-size: 0.6rem;
+.nav-btn span {
+    font-size: 0.5rem;
 }
 
 /* ========================================
@@ -631,30 +544,26 @@ body {
     color: var(--text-muted);
 }
 
-.empty-icon {
-    font-size: 3rem;
-    margin-bottom: 12px;
+.empty-feed .icon {
+    font-size: 2.8rem;
+    margin-bottom: 10px;
 }
 
 .empty-feed h3 {
     color: var(--text-secondary);
-    margin-bottom: 4px;
+    font-size: 1rem;
 }
 
 .empty-feed p {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
 }
 
 /* ========================================
    RESPONSIVE
    ======================================== */
 @media (max-width: 768px) {
-    .main-content {
-        padding: 8px 12px 12px;
-    }
-    .stories-bar {
-        gap: 12px;
-        padding: 8px 0 12px;
+    .stories-wrapper {
+        padding: 8px 0 10px;
     }
     .story-avatar {
         width: 56px;
@@ -668,82 +577,40 @@ body {
         width: 62px;
         height: 62px;
     }
-    .story-name {
+    .story-label {
         font-size: 0.6rem;
         max-width: 56px;
     }
-    .logo {
-        font-size: 1.3rem;
+    .create-post {
+        padding: 10px 14px;
     }
-    .logo-svg {
-        width: 24px;
-        height: 24px;
-    }
-    .post-item {
-        padding: 14px;
-    }
-    .bottom-nav {
-        padding: 6px 0 env(safe-area-inset-bottom, 6px);
-    }
-    .nav-item {
-        padding: 2px 8px;
-        min-width: 40px;
-    }
-    .nav-item svg {
-        width: 22px;
-        height: 22px;
-    }
-    .nav-item.nav-create {
-        padding: 6px 14px;
-        margin-top: -12px;
-    }
-    .nav-item span {
-        font-size: 0.5rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .top-nav {
-        padding: 10px 12px;
-    }
-    .main-content {
-        padding: 6px 8px 8px;
-    }
-    .create-post-card {
-        padding: 12px;
-    }
-    .create-post-header {
-        gap: 8px;
-    }
-    .avatar {
+    .create-avatar {
         width: 32px;
         height: 32px;
     }
-    .post-input {
+    .create-input {
         font-size: 0.85rem;
-        padding: 8px 12px;
-    }
-    .action-btn {
-        font-size: 0.75rem;
         padding: 6px 12px;
     }
-    .action-btn svg {
-        width: 16px;
-        height: 16px;
+    .create-publish-btn,
+    .create-photo-btn {
+        width: 32px;
+        height: 32px;
     }
-    .publish-btn {
-        font-size: 0.75rem;
-        padding: 6px 14px;
+    .create-publish-btn svg,
+    .create-photo-btn svg {
+        width: 17px;
+        height: 17px;
     }
-    .publish-btn svg {
-        width: 16px;
-        height: 16px;
+    .post-header {
+        padding: 10px 14px 6px;
     }
-    .feed-container {
-        padding: 12px;
+    .post-content {
+        padding: 0 14px 8px;
+        font-size: 0.85rem;
     }
-    .post-item {
-        padding: 12px;
+    .post-actions-feed {
+        padding: 2px 10px 6px;
     }
     .post-actions-feed button {
         font-size: 0.7rem;
@@ -752,5 +619,56 @@ body {
     .post-actions-feed button svg {
         width: 16px;
         height: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .top-bar {
+        padding: 8px 12px;
+    }
+    .logo {
+        font-size: 1.2rem;
+    }
+    .top-btn {
+        width: 34px;
+        height: 34px;
+    }
+    .top-btn svg {
+        width: 19px;
+        height: 19px;
+    }
+    .story-avatar {
+        width: 48px;
+        height: 48px;
+    }
+    .story-avatar img {
+        width: 48px;
+        height: 48px;
+    }
+    .story-ring {
+        width: 54px;
+        height: 54px;
+    }
+    .story-label {
+        font-size: 0.5rem;
+        max-width: 48px;
+    }
+    .bottom-nav {
+        padding: 4px 4px env(safe-area-inset-bottom, 4px);
+    }
+    .nav-btn {
+        min-width: 36px;
+        padding: 2px 6px;
+    }
+    .nav-btn svg {
+        width: 20px;
+        height: 20px;
+    }
+    .nav-btn.nav-create-btn {
+        padding: 6px 14px;
+        margin-top: -10px;
+    }
+    .nav-btn span {
+        font-size: 0.45rem;
     }
 }
