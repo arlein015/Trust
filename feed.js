@@ -13,9 +13,6 @@ import {
 } from "firebase/firestore";
 import { currentUser } from './auth.js';
 
-// ========================================
-// RÉFÉRENCES
-// ========================================
 const feedContainer = document.getElementById('feedContainer');
 const postInput = document.getElementById('postInput');
 const submitBtn = document.getElementById('submitPostBtn');
@@ -26,7 +23,18 @@ const imagePreview = document.getElementById('imagePreview');
 let selectedImage = null;
 
 // ========================================
-// CHARGER LE FEED EN TEMPS RÉEL
+// ICÔNES SVG POUR LE FEED
+// ========================================
+const ICONS = {
+    like: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>`,
+    liked: `<svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>`,
+    comment: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>`,
+    share: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 002 2h12a2 2 0 002-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>`,
+    delete: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/></svg>`
+};
+
+// ========================================
+// CHARGER LE FEED
 // ========================================
 export function loadFeed() {
     if (!feedContainer) return;
@@ -38,8 +46,8 @@ export function loadFeed() {
             feedContainer.innerHTML = `
                 <div class="empty-feed">
                     <div class="empty-icon">📝</div>
-                    <h3>Aucun post pour le moment</h3>
-                    <p>Sois le premier à partager quelque chose !</p>
+                    <h3>Aucun post</h3>
+                    <p>Sois le premier à partager !</p>
                 </div>
             `;
             return;
@@ -49,166 +57,4 @@ export function loadFeed() {
         snapshot.forEach((doc) => {
             const data = doc.data();
             const postId = doc.id;
-            const isOwner = data.userId === currentUser?.uid;
-            const likes = data.likes || 0;
-            
-            html += `
-                <div class="post-item" data-id="${postId}">
-                    <div class="post-author">
-                        <img src="${data.avatar || 'assets/default-avatar.png'}" alt="Avatar" />
-                        <span class="post-author-name">${data.displayName || 'Anonyme'}</span>
-                        <span class="post-time">${formatTime(data.timestamp)}</span>
-                    </div>
-                    <div class="post-content">${data.content || ''}</div>
-                    ${data.image ? `<img src="${data.image}" alt="Image" class="post-image" />` : ''}
-                    <div class="post-actions-feed">
-                        <button class="like-btn ${likes > 0 ? 'liked' : ''}" data-id="${postId}">
-                            ❤️ ${likes}
-                        </button>
-                        <button class="comment-btn" data-id="${postId}">
-                            💬 Commenter
-                        </button>
-                        ${isOwner ? `
-                            <button class="delete-btn" data-id="${postId}">
-                                🗑️ Supprimer
-                            </button>
-                        ` : ''}
-                    </div>
-                </div>
-            `;
-        });
-        
-        feedContainer.innerHTML = html;
-        
-        // Écouteurs d'événements
-        document.querySelectorAll('.like-btn').forEach(btn => {
-            btn.addEventListener('click', () => handleLike(btn.dataset.id));
-        });
-        
-        document.querySelectorAll('.delete-btn').forEach(btn => {
-            btn.addEventListener('click', () => handleDelete(btn.dataset.id));
-        });
-    });
-}
-
-// ========================================
-// PUBLIER UN POST
-// ========================================
-submitBtn?.addEventListener('click', async () => {
-    const content = postInput.value.trim();
-    if (!content && !selectedImage) {
-        alert('Écris quelque chose ou ajoute une image !');
-        return;
-    }
-    
-    if (!currentUser) {
-        alert('Connecte-toi pour publier !');
-        window.location.href = 'login.html';
-        return;
-    }
-    
-    submitBtn.disabled = true;
-    submitBtn.innerHTML = '⏳ Publication...';
-    
-    try {
-        let imageUrl = null;
-        if (selectedImage) {
-            // Pour l'instant, on garde l'image en base64
-            // Plus tard : upload vers Firebase Storage
-            imageUrl = selectedImage;
-        }
-        
-        await addDoc(collection(db, "posts"), {
-            content: content,
-            image: imageUrl,
-            userId: currentUser.uid,
-            displayName: currentUser.displayName || currentUser.email,
-            avatar: currentUser.photoURL || 'assets/default-avatar.png',
-            timestamp: serverTimestamp(),
-            likes: 0
-        });
-        
-        postInput.value = '';
-        selectedImage = null;
-        imagePreview.classList.add('hidden');
-        imagePreview.innerHTML = '';
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = '<span class="icon">📤</span> Publier';
-        
-    } catch (error) {
-        console.error("Erreur publication :", error);
-        alert('Erreur lors de la publication. Réessaie.');
-        submitBtn.disabled = false;
-        submitBtn.innerHTML = '<span class="icon">📤</span> Publier';
-    }
-});
-
-// ========================================
-// GESTION DES IMAGES
-// ========================================
-imageBtn?.addEventListener('click', () => fileInput.click());
-
-fileInput?.addEventListener('change', (e) => {
-    const file = e.target.files[0];
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = (event) => {
-            selectedImage = event.target.result;
-            imagePreview.innerHTML = `<img src="${selectedImage}" alt="Aperçu" />`;
-            imagePreview.classList.remove('hidden');
-        };
-        reader.readAsDataURL(file);
-    }
-});
-
-// ========================================
-// LIKE
-// ========================================
-async function handleLike(postId) {
-    if (!currentUser) {
-        alert('Connecte-toi pour liker !');
-        return;
-    }
-    
-    try {
-        const postRef = doc(db, "posts", postId);
-        await updateDoc(postRef, {
-            likes: increment(1)
-        });
-    } catch (error) {
-        console.error("Erreur like :", error);
-    }
-}
-
-// ========================================
-// SUPPRIMER
-// ========================================
-async function handleDelete(postId) {
-    if (!confirm('Supprimer ce post ?')) return;
-    try {
-        await deleteDoc(doc(db, "posts", postId));
-    } catch (error) {
-        console.error("Erreur suppression :", error);
-    }
-}
-
-// ========================================
-// FORMATER LE TEMPS
-// ========================================
-function formatTime(timestamp) {
-    if (!timestamp) return 'À l\'instant';
-    const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
-    const now = new Date();
-    const diff = Math.floor((now - date) / 1000);
-    
-    if (diff < 60) return `Il y a ${diff}s`;
-    if (diff < 3600) return `Il y a ${Math.floor(diff / 60)}m`;
-    if (diff < 86400) return `Il y a ${Math.floor(diff / 3600)}h`;
-    if (diff < 604800) return `Il y a ${Math.floor(diff / 86400)}j`;
-    return date.toLocaleDateString('fr-FR');
-}
-
-// ========================================
-// INIT
-// ========================================
-loadFeed();
+            const isOwner = data
