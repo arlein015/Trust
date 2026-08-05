@@ -6,7 +6,6 @@
     <title>Trust - Réseau Social</title>
     <link rel="stylesheet" href="style.css" />
     
-    <!-- Firebase -->
     <script type="importmap">
         {
             "imports": {
@@ -20,14 +19,22 @@
 </head>
 <body>
 
-    <!-- ===== NAVIGATION ===== -->
+    <!-- ===== NAVIGATION (Style Instagram) ===== -->
     <nav class="navbar">
         <div class="nav-container">
-            <div class="logo">🤝 Trust</div>
+            <div class="logo">
+                <span class="logo-icon">📸</span> Trust
+            </div>
             <div class="nav-links">
-                <a href="index.html" class="active">🏠 Accueil</a>
-                <a href="chat.html">💬 Messages</a>
-                <a href="profile.html">👤 Profil</a>
+                <a href="index.html" class="active">
+                    <span class="nav-icon">🏠</span> Accueil
+                </a>
+                <a href="chat.html">
+                    <span class="nav-icon">💬</span> Messages
+                </a>
+                <a href="profile.html">
+                    <span class="nav-icon">👤</span> Profil
+                </a>
             </div>
             <div class="nav-right">
                 <button id="themeToggle" class="theme-btn">🌙</button>
@@ -42,42 +49,54 @@
     <!-- ===== CONTENU PRINCIPAL ===== -->
     <main class="container">
         
-        <!-- Section : Créer un post -->
+        <!-- Section : Créer un post (Style Instagram) -->
         <section class="create-post">
-            <div class="card">
-                <div class="post-header">
-                    <img src="assets/default-avatar.png" alt="Avatar" class="avatar" id="userAvatar" />
+            <div class="card story-card">
+                <div class="story-bar">
+                    <div class="story-avatar">
+                        <img src="assets/default-avatar.png" alt="Avatar" id="userAvatar" />
+                        <div class="story-ring"></div>
+                    </div>
                     <input 
                         type="text" 
                         id="postInput" 
-                        placeholder="Quoi de neuf, Trust ? ✨"
+                        placeholder="Quoi de neuf ? ✨"
                         class="post-input"
                     />
                 </div>
                 <div class="post-actions">
-                    <button id="imageBtn" class="btn-outline">📷 Photo</button>
-                    <button id="submitPostBtn" class="btn-primary">Publier</button>
+                    <button id="imageBtn" class="btn-outline">
+                        <span class="icon">📷</span> Photo
+                    </button>
+                    <button id="submitPostBtn" class="btn-primary">
+                        <span class="icon">📤</span> Publier
+                    </button>
                 </div>
                 <div id="imagePreview" class="image-preview hidden"></div>
                 <input type="file" id="fileInput" accept="image/*" style="display:none" />
             </div>
         </section>
 
-        <!-- Section : Fil d'actualité -->
+        <!-- Section : Fil d'actualité (Style Instagram) -->
         <section class="feed">
-            <h2>📰 Fil d'actualité</h2>
+            <div class="feed-header">
+                <h2>📰 Fil d'actualité</h2>
+                <span class="feed-badge">✨ Nouveautés</span>
+            </div>
             <div id="feedContainer">
-                <p class="loading">Chargement des posts...</p>
+                <div class="loading-spinner">
+                    <div class="spinner"></div>
+                    <p>Chargement des posts...</p>
+                </div>
             </div>
         </section>
     </main>
 
     <!-- ===== FOOTER ===== -->
     <footer class="footer">
-        <p>© 2026 Trust - Construit avec 💙</p>
+        <p>© 2026 Trust - Construit avec 💜</p>
     </footer>
 
-    <!-- ===== JAVASCRIPT ===== -->
     <script type="module">
         import './firebase-config.js';
         import './auth.js';
